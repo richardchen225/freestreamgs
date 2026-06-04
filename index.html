@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project page for FreeStreamGS: Online Feed-forward 3D Gaussian Splatting from Unposed Streaming Inputs.">
+  <title>FreeStreamGS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --ink: #17191c;
+      --muted: #666f7a;
+      --line: #dfe4ea;
+      --soft: #f6f8fa;
+      --blue: #2568b8;
+      --green: #357a53;
+      --rose: #b74f5c;
+      --shadow: 0 10px 28px rgba(26, 42, 64, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, Arial, sans-serif;
+      line-height: 1.62;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(1080px, calc(100% - 36px));
+      margin: 0 auto;
+      overflow-wrap: break-word;
+    }
+
+    .hero {
+      padding: 58px 0 22px;
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #fbfcfd 0%, #ffffff 76%);
+    }
+
+    .venue {
+      margin: 0 0 12px;
+      color: var(--rose);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      margin: 0 auto 12px;
+      max-width: 980px;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0 auto 22px;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .authors {
+      margin: 0 auto 10px;
+      max-width: 860px;
+      font-size: 1.02rem;
+    }
+
+    .authors span {
+      display: inline-block;
+      margin: 0 5px 6px;
+      color: #28313b;
+    }
+
+    .affiliations {
+      margin: 0 auto 22px;
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .affiliations span {
+      display: inline-block;
+      margin: 0 8px 5px;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px 0 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: #1f2933;
+      color: #fff;
+      font-weight: 650;
+      border: 1px solid #1f2933;
+      box-shadow: 0 6px 16px rgba(31, 41, 51, 0.16);
+    }
+
+    .button:hover {
+      text-decoration: none;
+      background: #101820;
+    }
+
+    .button.secondary {
+      background: #ffffff;
+      color: #1f2933;
+      border-color: #cfd7df;
+      box-shadow: none;
+    }
+
+    .button.secondary:hover {
+      background: #f1f4f7;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 20px;
+    }
+
+    .teaser {
+      margin: 16px auto 0;
+      width: 100%;
+      max-width: 980px;
+      overflow: hidden;
+    }
+
+    .caption {
+      margin: 12px auto 0;
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    section {
+      padding: 44px 0;
+    }
+
+    section + section {
+      border-top: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: clamp(1.55rem, 3vw, 2.2rem);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .prose {
+      max-width: 880px;
+      margin: 0 auto;
+      font-size: 1.02rem;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .prose p {
+      margin: 0 0 16px;
+    }
+
+    .figure {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 1120px;
+      overflow: hidden;
+    }
+
+    .figure.padded {
+      padding: 0;
+    }
+
+    .figure img,
+    .teaser img {
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .pill-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .pill {
+      min-height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: var(--soft);
+    }
+
+    .pill strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #202a33;
+    }
+
+    .pill p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .metrics {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      font-size: 0.92rem;
+    }
+
+    .table-wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(26, 42, 64, 0.06);
+    }
+
+    .metrics th,
+    .metrics td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .metrics th:first-child,
+    .metrics td:first-child,
+    .metrics th:nth-child(2),
+    .metrics td:nth-child(2) {
+      text-align: left;
+    }
+
+    .metrics thead th {
+      background: #eef4fa;
+      color: #27323d;
+      font-weight: 700;
+    }
+
+    .metrics tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .ours-row {
+      background: #f7fbf8;
+      color: #17261d;
+      font-weight: 700;
+    }
+
+    .nvs-grid {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .grid-head,
+    .grid-row {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      min-width: 940px;
+    }
+
+    .grid-head {
+      color: #26313b;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.15;
+    }
+
+    .grid-head div {
+      padding: 0 5px 8px;
+      min-width: 0;
+    }
+
+    .grid-row img {
+      width: 100%;
+      height: auto;
+      background: #fff;
+      border-radius: 4px;
+    }
+
+    .grid-row + .grid-row {
+      margin-top: 8px;
+    }
+
+    .application-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      align-items: start;
+      justify-items: center;
+    }
+
+    .application-strip img {
+      background: #fff;
+      width: min(260px, 100%);
+      height: auto;
+    }
+
+    .bibtex {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 18px;
+      border-radius: 8px;
+      overflow-x: auto;
+      background: #20252b;
+      color: #edf2f7;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+      background: #fafbfc;
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        padding-top: 36px;
+      }
+
+      h1 {
+        font-size: 1.72rem;
+        line-height: 1.18;
+      }
+
+      .buttons {
+        align-items: stretch;
+        flex-direction: column;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .affiliations span {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .pill-row,
+      .application-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-head,
+      .grid-row {
+        min-width: 760px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <p class="venue">arXiv 2026</p>
+      <h1>FreeStreamGS: Online Feed-forward 3D Gaussian Splatting from Unposed Streaming Inputs</h1>
+      <p class="subtitle">TL;DR: A causal feed-forward framework for online 3DGS and NVS from streaming, unposed image inputs.</p>
+      <div class="authors">
+        <span>Ruiyang Chen<sup>1</sup></span>
+        <span>Feiran Li<sup>3</sup></span>
+        <span>Chu Zhou<sup>2</sup></span>
+        <span>Zonglin Li<sup>1</sup></span>
+        <span>Zhanyu Ma<sup>1</sup></span>
+        <span>Heng Guo<sup>1</sup></span>
+      </div>
+      <div class="affiliations">
+        <span><sup>1</sup>Beijing University of Posts and Telecommunications, China</span>
+        <span><sup>2</sup>National Institute of Informatics, Japan</span>
+        <span><sup>3</sup>Independent Researcher</span>
+      </div>
+      <nav class="buttons" aria-label="Project links">
+        <a class="button" href="https://arxiv.org/pdf/2606.03254" target="_blank" rel="noreferrer">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h9l5 5v15H6V2Zm8 1.8V8h4.2L14 3.8ZM8 11v2h8v-2H8Zm0 4v2h8v-2H8Z"/></svg>
+          Paper
+        </a>
+        <a class="button secondary" href="https://arxiv.org/abs/2606.03254" target="_blank" rel="noreferrer">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v13A2.5 2.5 0 0 1 17.5 21h-11A2.5 2.5 0 0 1 4 18.5v-13Zm3 2V9h10V7.5H7Zm0 4V13h10v-1.5H7Zm0 4V17h7v-1.5H7Z"/></svg>
+          arXiv
+        </a>
+        <span class="button secondary" aria-disabled="true">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 2 9 5v10l-9 5-9-5V7l9-5Zm0 2.3L5.5 8 12 11.7 18.5 8 12 4.3ZM5 9.7v5.9l6 3.4v-5.9L5 9.7Zm8 9.3 6-3.4V9.7l-6 3.4V19Z"/></svg>
+          Code Coming Soon
+        </span>
+      </nav>
+      <figure class="teaser">
+        <img src="static/images/teaser.png" alt="FreeStreamGS incrementally reconstructs 3D Gaussian scenes from streaming inputs and renders novel views.">
+      </figure>
+      <p class="caption">FreeStreamGS incrementally reconstructs renderable 3D Gaussian representations from unposed video streams for online 3DGS and NVS.</p>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="container">
+        <h2>Abstract</h2>
+        <div class="prose">
+          <p>Feed-forward 3D Gaussian Splatting (3DGS) allows efficient and high-fidelity novel view synthesis (NVS) from an offline recorded image sequence. However, achieving online NVS from streaming and unposed image inputs remains challenging. Although online feed-forward geometric estimation methods have been proposed for streaming depth and point cloud recovery, they cannot be adapted to NVS due to severe rendering artifacts. This is because NVS demands stricter multi-view consistency in Gaussian scales and pose-geometry alignment; even minor deviations would accumulate over time and visibly degrade rendering quality. To this end, we propose FreeStreamGS, a robust online feed-forward framework for efficient and high-quality NVS. We introduce two key mechanisms: a Decoupled Intrinsic Recovery Head that removes cumulative camera intrinsic bias and prevents scene scale jitter during long-term streaming, and a Dynamic Point Refinement Offset strategy that relaxes rigid unprojection to correct coupled pose-depth drift. Extensive experiments show that FreeStreamGS achieves rendering quality competitive with state-of-the-art offline feed-forward 3DGS methods, despite operating without access to future frames.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Method</h2>
+        <figure class="figure padded">
+          <img src="static/images/pipeline-1.png" alt="Overview of the FreeStreamGS pipeline.">
+        </figure>
+        <p class="caption">The pipeline uses causal feature extraction, decoupled camera recovery, Gaussian decoding with DPR-Offsets, and online recursive Gaussian fusion.</p>
+        <div class="pill-row">
+          <div class="pill">
+            <strong>Causal Streaming</strong>
+            <p>Processes frames sequentially with historical context and no future observations.</p>
+          </div>
+          <div class="pill">
+            <strong>Stable Intrinsics</strong>
+            <p>Decoupled intrinsic recovery reduces scale jitter during long-term streaming.</p>
+          </div>
+          <div class="pill">
+            <strong>Geometry Refinement</strong>
+            <p>DPR-Offsets compensate for coupled pose-depth drift before Gaussian fusion.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Quantitative Results</h2>
+        <div class="table-wrap">
+          <table class="metrics" aria-label="Quantitative novel view synthesis results">
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>Method</th>
+                <th>Online</th>
+                <th>5-view PSNR</th>
+                <th>5-view SSIM</th>
+                <th>5-view LPIPS</th>
+                <th>64-view PSNR</th>
+                <th>64-view SSIM</th>
+                <th>64-view LPIPS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DL3DV-140</td>
+                <td>WorldMirror</td>
+                <td>No</td>
+                <td>21.559</td>
+                <td>0.673</td>
+                <td>0.285</td>
+                <td>OOM</td>
+                <td>OOM</td>
+                <td>OOM</td>
+              </tr>
+              <tr>
+                <td>DL3DV-140</td>
+                <td>OnTheFly-NVS</td>
+                <td>Yes</td>
+                <td>21.030</td>
+                <td>0.644</td>
+                <td>0.325</td>
+                <td>18.478</td>
+                <td>0.610</td>
+                <td>0.455</td>
+              </tr>
+              <tr class="ours-row">
+                <td>DL3DV-140</td>
+                <td>FreeStreamGS</td>
+                <td>Yes</td>
+                <td>21.884</td>
+                <td>0.688</td>
+                <td>0.273</td>
+                <td>17.190</td>
+                <td>0.558</td>
+                <td>0.485</td>
+              </tr>
+              <tr>
+                <td>RE10K</td>
+                <td>WorldMirror</td>
+                <td>No</td>
+                <td>25.419</td>
+                <td>0.820</td>
+                <td>0.203</td>
+                <td>OOM</td>
+                <td>OOM</td>
+                <td>OOM</td>
+              </tr>
+              <tr>
+                <td>RE10K</td>
+                <td>OnTheFly-NVS</td>
+                <td>Yes</td>
+                <td>20.829</td>
+                <td>0.815</td>
+                <td>0.290</td>
+                <td>20.985</td>
+                <td>0.767</td>
+                <td>0.303</td>
+              </tr>
+              <tr class="ours-row">
+                <td>RE10K</td>
+                <td>FreeStreamGS</td>
+                <td>Yes</td>
+                <td>25.797</td>
+                <td>0.833</td>
+                <td>0.200</td>
+                <td>21.562</td>
+                <td>0.749</td>
+                <td>0.297</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="caption">FreeStreamGS is evaluated under strict online constraints and remains scalable when offline feed-forward baselines run out of memory.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Qualitative Results</h2>
+        <div class="nvs-grid" aria-label="Novel view synthesis qualitative comparison">
+          <div class="grid-head">
+            <div>GT</div>
+            <div>FreeStreamGS</div>
+            <div>OnTheFly-NVS</div>
+            <div>WorldMirror</div>
+            <div>AnySplat</div>
+            <div>FLARE</div>
+          </div>
+          <div class="grid-row">
+            <img src="static/images/nvs/dl3dv_0bfdd_gt-1.png" alt="DL3DV ground truth sample 1">
+            <img src="static/images/nvs/dl3dv_0bfdd_me-1.png" alt="FreeStreamGS DL3DV sample 1">
+            <img src="static/images/nvs/dl3dv_0bfdd_fly-1.png" alt="OnTheFly-NVS DL3DV sample 1">
+            <img src="static/images/nvs/dl3dv_0bfdd_wm-1.png" alt="WorldMirror DL3DV sample 1">
+            <img src="static/images/nvs/dl3dv_0bfdd_any-1.png" alt="AnySplat DL3DV sample 1">
+            <img src="static/images/nvs/dl3dv_0bfdd_flare-1.png" alt="FLARE DL3DV sample 1">
+          </div>
+          <div class="grid-row">
+            <img src="static/images/nvs/dl3dv_0a1b7_gt-1.png" alt="DL3DV ground truth sample 2">
+            <img src="static/images/nvs/dl3dv_0a1b7_me-1.png" alt="FreeStreamGS DL3DV sample 2">
+            <img src="static/images/nvs/dl3dv_0a1b7_fly-1.png" alt="OnTheFly-NVS DL3DV sample 2">
+            <img src="static/images/nvs/dl3dv_0a1b7_wm-1.png" alt="WorldMirror DL3DV sample 2">
+            <img src="static/images/nvs/dl3dv_0a1b7_any-1.png" alt="AnySplat DL3DV sample 2">
+            <img src="static/images/nvs/dl3dv_0a1b7_flare-1.png" alt="FLARE DL3DV sample 2">
+          </div>
+          <div class="grid-row">
+            <img src="static/images/nvs/re10k_70a44_gt-1.png" alt="RE10K ground truth sample 1">
+            <img src="static/images/nvs/re10k_70a44_me-1.png" alt="FreeStreamGS RE10K sample 1">
+            <img src="static/images/nvs/re10k_70a44_fly-1.png" alt="OnTheFly-NVS RE10K sample 1">
+            <img src="static/images/nvs/re10k_70a44_wm-1.png" alt="WorldMirror RE10K sample 1">
+            <img src="static/images/nvs/re10k_70a44_any-1.png" alt="AnySplat RE10K sample 1">
+            <img src="static/images/nvs/re10k_70a44_flare-1.png" alt="FLARE RE10K sample 1">
+          </div>
+          <div class="grid-row">
+            <img src="static/images/nvs/re10k_ecc60_gt-1.png" alt="RE10K ground truth sample 2">
+            <img src="static/images/nvs/re10k_ecc60_me-1.png" alt="FreeStreamGS RE10K sample 2">
+            <img src="static/images/nvs/re10k_ecc60_fly-1.png" alt="OnTheFly-NVS RE10K sample 2">
+            <img src="static/images/nvs/re10k_ecc60_wm-1.png" alt="WorldMirror RE10K sample 2">
+            <img src="static/images/nvs/re10k_ecc60_any-1.png" alt="AnySplat RE10K sample 2">
+            <img src="static/images/nvs/re10k_ecc60_flare-1.png" alt="FLARE RE10K sample 2">
+          </div>
+        </div>
+        <p class="caption">Qualitative comparison on DL3DV-140 and RE10K. FreeStreamGS preserves structural detail while operating causally.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Video Stabilization</h2>
+        <div class="application-strip">
+          <img src="static/images/stabilization_15-1.png" alt="FreeStreamGS video stabilization result 15">
+          <img src="static/images/stabilization_21-1.png" alt="FreeStreamGS video stabilization result 21">
+          <img src="static/images/stabilization_25-1.png" alt="FreeStreamGS video stabilization result 25">
+        </div>
+        <p class="caption">Once a causal Gaussian representation is available, FreeStreamGS can render stabilized views along smoothed camera trajectories.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>BibTeX</h2>
+        <pre class="bibtex">@article{chen2026freestreamgs,
+  title   = {FreeStreamGS: Online Feed-forward 3D Gaussian Splatting from Unposed Streaming Inputs},
+  author  = {Chen, Ruiyang and Li, Feiran and Zhou, Chu and Li, Zonglin and Ma, Zhanyu and Guo, Heng},
+  journal = {arXiv preprint arXiv:2606.03254},
+  year    = {2026}
+}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      This project page follows the spirit of the Nerfies project page template.
+    </div>
+  </footer>
+</body>
+</html>
